@@ -2,6 +2,7 @@ import express from "express";
 import multer from "multer";
 import fs from "fs";
 import { getNewFileName } from "./util";
+import bodyParser from 'body-parser';
 import moment from "moment";
 
 const port = 3999;
@@ -22,6 +23,9 @@ app.all("*", function (req, res, next) {
   res.header("Content-Type", "application/json;charset=utf-8");
   next();
 });
+
+app.use(bodyParser.json())
+
 // upload.single(<form fieldName>)
 app.post("/uploadFile", upload.single("img"), function (req, res) {
   const prePath = req.file.path;
@@ -70,7 +74,7 @@ app.get("/fileList/:package", (req, res) => {
   const packagePath = baseUploadPath + "/" + packageName;
   const files = fs.readdirSync(packagePath);
   const result: string[] = [];
-  files.forEach(function (item, index) {
+  files.forEach(function (item) {
     let stat = fs.lstatSync(packagePath + "/" + item);
     if (stat.isFile()) {
       result.push(`${packagePath}/${item}`);
@@ -78,6 +82,20 @@ app.get("/fileList/:package", (req, res) => {
   });
   res.send(result);
 });
+
+app.post("/delete",(req,res) => {
+  const filePath = req.body.filePath;
+
+
+  if(fs.existsSync(filePath)){
+    fs.unlinkSync(filePath)
+
+  }
+  return {
+    status: 1,
+    msg: "success",
+  }
+})
 
 app.use("/static", express.static("static"));
 

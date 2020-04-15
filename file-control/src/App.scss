@@ -1,0 +1,37 @@
+@import "~antd/dist/antd.css";
+
+.canvas-content {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+  }
+  
+.file-container{
+    display: flex;
+    height: 50%;
+  }
+  .col-img{
+    background: blue($color: #000000);
+    width: 20%;
+    height: 131px;
+    text-align: center;
+    cursor: pointer;
+    padding:30px 0;
+    transition: color 0.3s ease-in-out;
+    border-radius: 10px;
+    &:hover{
+      background-color: #1890ff;
+      color: white;
+    }
+    
+  }
+  .file-icon{
+    font-size: 50px;
+    display: block;
+    
+
+  }
+  .file-upload-container{
+    margin:0 auto;
+    width: 200px;
+  }
