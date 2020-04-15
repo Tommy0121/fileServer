@@ -8,7 +8,7 @@ const Head = () => {
   return (
     <Header className="header">
       <div className="logo">
-        <a>
+        <a href="">
           <img alt="" src={logo} width="50" height="50" />
         </a>
       </div>

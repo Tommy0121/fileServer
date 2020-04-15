@@ -1,9 +1,10 @@
 import express from "express";
 import multer from "multer";
 import fs from "fs";
-import { getNewFileName } from "./util";
-import bodyParser from 'body-parser';
+import { getNewFileName, isEmptyFolder } from "./util";
+import bodyParser from "body-parser";
 import moment from "moment";
+import ejs from 'ejs';
 
 const port = 3999;
 
@@ -11,6 +12,13 @@ const app = express();
 const upload = multer({ dest: "\\uploads" });
 
 const baseUploadPath = "static/uploads/images";
+
+app.engine('.html', ejs.__express);
+app.set('views', "static/build");
+app.set('view engine', 'html');
+app.use("/static", express.static("static"));
+app.use(bodyParser.json());
+
 
 app.all("*", function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -24,7 +32,6 @@ app.all("*", function (req, res, next) {
   next();
 });
 
-app.use(bodyParser.json())
 
 // upload.single(<form fieldName>)
 app.post("/uploadFile", upload.single("img"), function (req, res) {
@@ -61,7 +68,10 @@ app.get("/imageDirs", (req, res) => {
   const files = fs.readdirSync(baseUploadPath);
   files.forEach(function (item, index) {
     let stat = fs.lstatSync(`${baseUploadPath}/${item}`);
-    if (stat.isDirectory() === true) {
+    if (
+      stat.isDirectory() === true &&
+      !isEmptyFolder(`${baseUploadPath}/${item}`)
+    ) {
       fileDir.push(item);
     }
   });
@@ -83,21 +93,23 @@ app.get("/fileList/:package", (req, res) => {
   res.send(result);
 });
 
-app.post("/delete",(req,res) => {
+app.post("/delete", (req, res) => {
   const filePath = req.body.filePath;
 
-
-  if(fs.existsSync(filePath)){
-    fs.unlinkSync(filePath)
-
+  if (fs.existsSync(filePath)) {
+    fs.unlinkSync(filePath);
   }
-  return {
-    status: 1,
-    msg: "success",
-  }
+  res.send({
+    status:1,
+    message:'success'
+  })
+});
+
+app.get('/home',(req,res)=>{
+  res.type("html")
+  res.render("index.html")
 })
 
-app.use("/static", express.static("static"));
 
 app.listen(port, () => {
   console.log(`listen in ${port}`);

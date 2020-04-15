@@ -9,7 +9,8 @@ export const baseHttpUrl = "http://localhost:3999";
 export const RequestUrls = {
   uploadFile: `${baseHttpUrl}/uploadFile`,
   fileList:(packageName:string) => `${baseHttpUrl}/fileList/${packageName}`,
-  fileDirs:`${baseHttpUrl}/imageDirs`
+  fileDirs:`${baseHttpUrl}/imageDirs`,
+  deleteFile: `${baseHttpUrl}/delete`
 };
 
 const FileUploadPage = () => {

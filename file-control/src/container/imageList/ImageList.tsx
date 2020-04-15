@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Upload, Modal } from "antd";
+import { Upload, Modal, message } from "antd";
 import { RequestUrls, baseHttpUrl } from "../fileUpload/FileUpload";
 import axios from "axios";
 import "./_imageList.scss";
@@ -15,25 +15,25 @@ const ImageList = (props) => {
   const signal = axios.CancelToken.source();
   const [previewImage, setPreviewImage] = useState("");
 
-  useEffect(() => {
+  const fetchImageData = async () => {
     const packageName = props.location.state.packageName;
-    const fetchImageData = async () => {
-      const result = await axios.get(RequestUrls.fileList(packageName), {
-        cancelToken: signal.token,
-      });
-      let displayData = result.data.map(
-        (item: string, index): DisplayType => {
-          return {
-            uid: index,
-            name: item,
-            url: baseHttpUrl + "/" + item,
-            status: "done",
-          };
-        }
-      );
-      console.log(result.data);
-      setFileList(displayData);
-    };
+    const result = await axios.get(RequestUrls.fileList(packageName), {
+      cancelToken: signal.token,
+    });
+    let displayData = result.data.map(
+      (item: string, index): DisplayType => {
+        return {
+          uid: index,
+          name: item,
+          url: baseHttpUrl + "/" + item,
+          status: "done",
+        };
+      }
+    );
+    setFileList(displayData);
+  };
+
+  useEffect(() => {
     fetchImageData();
     return () => {
       signal.cancel("cancel api call");
@@ -48,12 +48,17 @@ const ImageList = (props) => {
     setPreviewVisible(true);
   };
   const handleRemoveFile = async (file) => {
-    console.log(file);
+    console.log(file)
     const result = await axios.post(
-      "http://localhost:3999/delete",
+      RequestUrls.deleteFile,
       { filePath: file.name },
       { headers: { "Content-Type": "application/json" } }
     );
+    console.log(result.data)
+    if(result.data.status === 1){
+      fetchImageData();
+      message.success('删除成功')
+    }
   };
   return (
     <div>
