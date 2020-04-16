@@ -5,7 +5,7 @@ import { UploadFile, RcFile } from "antd/lib/upload/interface";
 import axios from "axios";
 import {history} from '../../configureStore/ConfigureStore'
 
-export const baseHttpUrl = process.env.NODE_ENV  === "development" ? "http://localhost:3999": "http://123.207.87.254:3999/";
+export const baseHttpUrl = process.env.NODE_ENV  === "development" ? "http://localhost:3999": "http://123.207.87.254:3999";
 export const RequestUrls = {
   uploadFile: `${baseHttpUrl}/uploadFile`,
   fileList:(packageName:string) => `${baseHttpUrl}/fileList/${packageName}`,
