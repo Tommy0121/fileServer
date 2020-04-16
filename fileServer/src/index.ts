@@ -4,7 +4,7 @@ import fs from "fs";
 import { getNewFileName, isEmptyFolder } from "./util";
 import bodyParser from "body-parser";
 import moment from "moment";
-import ejs from 'ejs';
+import ejs from "ejs";
 
 const port = 3999;
 
@@ -13,14 +13,14 @@ const upload = multer({ dest: "\\uploads" });
 
 const baseUploadPath = "static/uploads/images";
 
-app.engine('.html', ejs.__express);
-app.set('views', "static/build");
-app.set('view engine', 'html');
+app.engine(".html", ejs.__express);
+app.set("views", "static/build");
+app.set("view engine", "html");
 app.use("/static", express.static("static"));
 app.use(bodyParser.json());
 
-
 app.all("*", function (req, res, next) {
+  res.header("Access-Control-Allow-origin", "*");
   res.header(
     "Access-Control-Allow-Headers",
     "Content-Type,Content-Length, Authorization, Accept,X-Requested-With"
@@ -31,24 +31,29 @@ app.all("*", function (req, res, next) {
   next();
 });
 
-
 // upload.single(<form fieldName>)
 app.post("/uploadFile", upload.single("img"), function (req, res) {
   const prePath = req.file.path;
-
-  const newName = getNewFileName(prePath.split("\\"), req.file.originalname);
+  console.log(prePath);
+  const newName = getNewFileName(prePath.split("/"), req.file.originalname);
   const currentDay = moment();
   const newPath = `static/uploads/images/${currentDay.format("YYYY-MM-DD")}`;
   const result = newPath + "/" + newName;
   if (!fs.existsSync(newPath)) {
-    console.log("file not exists create folder:")
-    console.log(newPath)
+    console.log("file not exists create folder:");
+    console.log(newPath);
     fs.mkdirSync(newPath);
   }
 
   try {
     const value = fs.readFileSync(prePath);
-    fs.writeFileSync(result, value);
+    fs.writeFile(result, value, () => {
+      console.log('file write finished')
+      fs.readdirSync("\\uploads").map((file) => {
+        fs.unlinkSync(`\\uploads/${file}`);
+      });
+      fs.rmdirSync("\\uploads");
+    });
   } catch (e) {
     console.log(e);
   }
@@ -101,16 +106,15 @@ app.post("/delete", (req, res) => {
     fs.unlinkSync(filePath);
   }
   res.send({
-    status:1,
-    message:'success'
-  })
+    status: 1,
+    message: "success",
+  });
 });
 
-app.get('/home',(req,res)=>{
-  res.type("html")
-  res.render("index.html")
-})
-
+app.get("/home", (req, res) => {
+  res.type("html");
+  res.render("index.html");
+});
 
 app.listen(port, () => {
   console.log(`listen in ${port}`);
