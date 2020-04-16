@@ -47,12 +47,16 @@ app.post("/uploadFile", upload.single("img"), function (req, res) {
 
   try {
     const value = fs.readFileSync(prePath);
-    fs.writeFile(result, value, () => {
+    fs.writeFile(result, value, (e) => {
+      if(e){
+        console.log(e)
+      }
       console.log('file write finished')
       fs.readdirSync("\\uploads").map((file) => {
+       
         fs.unlinkSync(`\\uploads/${file}`);
+        console.log("temp file delete finished")
       });
-      fs.rmdirSync("\\uploads");
     });
   } catch (e) {
     console.log(e);
