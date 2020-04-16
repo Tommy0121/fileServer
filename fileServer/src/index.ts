@@ -38,9 +38,11 @@ app.post("/uploadFile", upload.single("img"), function (req, res) {
 
   const newName = getNewFileName(prePath.split("\\"), req.file.originalname);
   const currentDay = moment();
-  const newPath = `static\\uploads\\images\\${currentDay.format("YYYY-MM-DD")}`;
-  const result = newPath + "\\" + newName;
+  const newPath = `static/uploads/images/${currentDay.format("YYYY-MM-DD")}`;
+  const result = newPath + "/" + newName;
   if (!fs.existsSync(newPath)) {
+    console.log("file not exists create folder:")
+    console.log(newPath)
     fs.mkdirSync(newPath);
   }
 
