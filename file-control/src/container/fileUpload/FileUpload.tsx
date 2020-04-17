@@ -34,13 +34,14 @@ const FileUploadPage = () => {
   }, [previewVisible]);
 
   function beforeUpload(file: RcFile) {
-    const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+    const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png" || file.type === "image/gif";
+    
     if (!isJpgOrPng) {
-      message.error("You can only upload JPG/PNG file!");
+      message.error("仅支持JPG/PNG/GIF 文件!");
     }
-    const isLt2M = file.size / 1024 / 1024 < 2;
+    const isLt2M = file.size / 1024 / 1024 < 5;
     if (!isLt2M) {
-      message.error("Image must smaller than 2MB!");
+      message.error("文件大小不超过 5MB!");
     }
     return isJpgOrPng && isLt2M;
   }
