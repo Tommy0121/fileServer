@@ -11,14 +11,16 @@ const port = 3999;
 const app = express();
 const upload = multer({ dest: "\\uploads" });
 
-const baseUploadPath = "static/uploads/images";
+const baseUploadPath = "resource/uploads/images";
 
 app.engine(".html", ejs.__express);
 app.set("views", "static/build");
 app.set("view engine", "html");
-app.use("/static", express.static("static"));
+app.use("/", express.static("build"));
+// app.use("/static", express.static("build/static"));
 app.use(bodyParser.json());
 
+// set cros origin settings
 app.all("*", function (req, res, next) {
   res.header("Access-Control-Allow-origin", "*");
   res.header(
@@ -34,20 +36,19 @@ app.all("*", function (req, res, next) {
 // upload.single(<form fieldName>)
 app.post("/uploadFile", upload.single("img"), function (req, res) {
   const prePath = req.file.path;
-  console.log(prePath);
   const newName = getNewFileName(prePath.split("/"), req.file.originalname);
   const currentDay = moment();
-  const newPath = `static/uploads/images/${currentDay.format("YYYY-MM-DD")}`;
-  const result = newPath + "/" + newName;
-  if (!fs.existsSync(newPath)) {
+  const newFileFolder = `${baseUploadPath}/${currentDay.format("YYYY-MM-DD")}`;
+  const newFilePath = newFileFolder + "/" + newName;
+  if (!fs.existsSync(newFilePath)) {
     console.log("file not exists create folder:");
-    console.log(newPath);
-    fs.mkdirSync(newPath);
+    console.log(newFilePath);
+    fs.mkdirSync(newFilePath);
   }
 
   try {
     const value = fs.readFileSync(prePath);
-    fs.writeFile(result, value, (e) => {
+    fs.writeFile(newFilePath, value, (e) => {
       if(e){
         console.log(e)
       }
@@ -69,9 +70,6 @@ app.post("/uploadFile", upload.single("img"), function (req, res) {
   });
 });
 
-app.get("/hello", (req, res) => {
-  res.send("hello ");
-});
 
 app.get("/imageDirs", (req, res) => {
   let fileDir: string[] = [];
@@ -115,10 +113,10 @@ app.post("/delete", (req, res) => {
   });
 });
 
-app.get("/home", (req, res) => {
-  res.type("html");
-  res.render("index.html");
-});
+// app.get("/home", (req, res) => {
+//   res.type("html");
+//   res.render("index.html");
+// });
 
 app.listen(port, () => {
   console.log(`listen in ${port}`);
