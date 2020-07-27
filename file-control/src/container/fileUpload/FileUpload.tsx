@@ -55,9 +55,6 @@ const FileUploadPage = () => {
       setFolders(result.data);
     };
     fetchData();
-
-
-    alert( process.env.NODE_ENV)
     return () => {
       signal.cancel("cancel api call");
     };
