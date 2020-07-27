@@ -5,21 +5,47 @@ import { UploadFile, RcFile } from "antd/lib/upload/interface";
 import axios from "axios";
 import {history} from '../../configureStore/ConfigureStore'
 
-export const baseHttpUrl =  "http://localhost:3999"
+
+const beforeUpload = (file: RcFile) => {
+  const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png" || file.type === "image/gif";
+  
+  if (!isJpgOrPng) {
+    message.error("仅支持JPG/PNG/GIF 文件!");
+  }
+  const isLt2M = file.size / 1024 / 1024 < 5;
+  if (!isLt2M) {
+    message.error("文件大小不超过 5MB!");
+  }
+  return isJpgOrPng && isLt2M;
+}
+
+export const baseResourceUrl = process.env.NODE_ENV  === "development" ? "http://localhost:3999": "http://123.207.87.254:3999";
+
+export const baseHttpUrl =  `${baseResourceUrl}/api`;
+
+
 // export const baseHttpUrl = process.env.NODE_ENV  === "development" ? "http://localhost:3999": "http://123.207.87.254:3999";
+
+
+const fileApiUrl = {
+  uploadFile:`${baseHttpUrl}/file/uploadFile`,
+  fileList:(packageName:string) => `${baseHttpUrl}/file/fileList/${packageName}`,
+  fileDirs:`${baseHttpUrl}/file/imageDirs`,
+}
 export const RequestUrls = {
-  uploadFile: `${baseHttpUrl}/uploadFile`,
-  fileList:(packageName:string) => `${baseHttpUrl}/fileList/${packageName}`,
-  fileDirs:`${baseHttpUrl}/imageDirs`,
-  deleteFile: `${baseHttpUrl}/delete`
+  ...fileApiUrl
 };
+
+
 
 const FileUploadPage = () => {
   const [fileUploading, setFileUploading] = useState(false);
   const [imgUrl, setImgUrl] = useState("");
   const [previewVisible, setPreviewVisible] = useState(false);
   const [folders, setFolders] = useState<string[]>([]);
-  const signal = axios.CancelToken.source();
+
+
+  const signal = React.useMemo(() =>axios.CancelToken.source(),[] ) ;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,23 +55,15 @@ const FileUploadPage = () => {
       setFolders(result.data);
     };
     fetchData();
+
+
+    alert( process.env.NODE_ENV)
     return () => {
       signal.cancel("cancel api call");
     };
-  }, [previewVisible]);
+  }, [previewVisible,signal]);
 
-  function beforeUpload(file: RcFile) {
-    const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png" || file.type === "image/gif";
-    
-    if (!isJpgOrPng) {
-      message.error("仅支持JPG/PNG/GIF 文件!");
-    }
-    const isLt2M = file.size / 1024 / 1024 < 5;
-    if (!isLt2M) {
-      message.error("文件大小不超过 5MB!");
-    }
-    return isJpgOrPng && isLt2M;
-  }
+
 
   const handleChange = (info: UploadChangeParam<UploadFile>) => {
     if (info.file.status === "uploading") {
@@ -55,7 +73,7 @@ const FileUploadPage = () => {
     if (info.file.status === "done") {
       // first parameter should be response url
       setFileUploading(false);
-      setImgUrl(baseHttpUrl + info.file.response.path);
+      setImgUrl(baseResourceUrl + info.file.response.path);
       setPreviewVisible(true);
     }
   };

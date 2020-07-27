@@ -1,6 +1,8 @@
-export const baseResourcePath = "resource";
+export const baseResourceDiskPath = "resource";
 
-export const baseUploadPath = `${baseResourcePath}/uploads"`;
+export const baseUploadDiskPath = `${baseResourceDiskPath}/uploads`;
+
+export const baseHttpRequestUploadResourcePath = 'uploads/';
 
 
 

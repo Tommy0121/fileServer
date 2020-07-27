@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Upload, Modal, message } from "antd";
-import { RequestUrls, baseHttpUrl } from "../fileUpload/FileUpload";
+import { Upload, Modal } from "antd";
+import { RequestUrls, baseResourceUrl } from "../fileUpload/FileUpload";
 import axios from "axios";
 import "./_imageList.scss";
 type DisplayType = {
@@ -12,33 +12,38 @@ type DisplayType = {
 const ImageList = (props) => {
   const [fileList, setFileList] = useState([]);
   const [previewVisible, setPreviewVisible] = useState(false);
-  const signal = axios.CancelToken.source();
+  
   const [previewImage, setPreviewImage] = useState("");
 
-  const fetchImageData = async () => {
+  const signal = React.useMemo(() => axios.CancelToken.source(),[]);
+
+  const fetchImageData = React.useCallback(async () => {
     const packageName = props.location.state.packageName;
     const result = await axios.get(RequestUrls.fileList(packageName), {
       cancelToken: signal.token,
     });
+    
     let displayData = result.data.map(
-      (item: string, index): DisplayType => {
+      (item: string, index:string): DisplayType => {
         return {
           uid: index,
           name: item,
-          url: baseHttpUrl + "/" + item,
+          url: baseResourceUrl + "/" + item,
           status: "done",
         };
       }
     );
     setFileList(displayData);
-  };
+  },[]);
+
+  // const fetchImageData = 
 
   useEffect(() => {
     fetchImageData();
     return () => {
       signal.cancel("cancel api call");
     };
-  }, []);
+  }, [fetchImageData,signal]);
 
   const handleCancel = () => {
     setPreviewVisible(false);
@@ -46,19 +51,6 @@ const ImageList = (props) => {
   const handlePreview = (file) => {
     setPreviewImage(file.url);
     setPreviewVisible(true);
-  };
-  const handleRemoveFile = async (file) => {
-    console.log(file)
-    const result = await axios.post(
-      RequestUrls.deleteFile,
-      { filePath: file.name },
-      { headers: { "Content-Type": "application/json" } }
-    );
-    console.log(result.data)
-    if(result.data.status === 1){
-      fetchImageData();
-      message.success('删除成功')
-    }
   };
   return (
     <div>
@@ -68,7 +60,6 @@ const ImageList = (props) => {
         fileList={fileList}
         onPreview={handlePreview}
         className="img-list-card"
-        onRemove={handleRemoveFile}
       ></Upload>
       <Modal visible={previewVisible} footer={null} onCancel={handleCancel}>
         <img alt="example" style={{ width: "100%" }} src={previewImage} />

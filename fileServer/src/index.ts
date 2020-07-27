@@ -1,6 +1,6 @@
 import express from "express";
 import fs from "fs";
-import { baseResourcePath } from "./constant";
+import { baseResourceDiskPath, baseUploadDiskPath } from "./constant";
 import bodyParser from "body-parser";
 
 import ejs from "ejs";
@@ -13,7 +13,7 @@ const app = express();
 app.engine(".html", ejs.__express);
 app.set("views", "static/build");
 app.set("view engine", "html");
-app.use("/", express.static("build"));
+app.use("/", express.static("resource"));
 app.use(bodyParser.json());
 
 // set cros origin settings
@@ -27,9 +27,10 @@ app.all("*", function (req, res, next) {
   res.header("X-Powered-By", " 3.2.1");
   res.header("Content-Type", "application/json;charset=utf-8");
 
-  if (!fs.existsSync(baseResourcePath)) {
+  if (!fs.existsSync(baseResourceDiskPath)) {
 
-    fs.mkdirSync(baseResourcePath)
+    fs.mkdirSync(baseResourceDiskPath)
+    fs.mkdirSync(baseUploadDiskPath);
   }
   next();
 });
