@@ -58,7 +58,7 @@ const FileUploadPage = () => {
     return () => {
       signal.cancel("cancel api call");
     };
-  }, [previewVisible,signal]);
+  }, [signal]);
 
 
 
@@ -71,9 +71,27 @@ const FileUploadPage = () => {
       // first parameter should be response url
       setFileUploading(false);
       setImgUrl(baseResourceUrl + info.file.response.path);
+      if(copyUrl(baseResourceUrl + info.file.response.path)){
+        message.success("地址已经复制")
+      }
+        
       setPreviewVisible(true);
     }
   };
+
+
+  const copyUrl = (value:string):boolean => {
+    const input =document.createElement('input');
+    input.setAttribute('readonly', 'readonly'); 
+    input.setAttribute('value', value);
+    document.body.appendChild(input);
+    input.select();
+    const result = document.execCommand('copy');
+    document.body.removeChild(input);
+
+    return result
+  }
+
 
   const handleCancel = () => {
     setPreviewVisible(false);

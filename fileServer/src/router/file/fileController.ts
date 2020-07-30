@@ -25,7 +25,7 @@ fileRouter.post("/uploadFile", upload.single("img"), function (req, res) {
   const newFilePath = newFileFolder + "/" + newFileName;
 
   const result =
-    baseHttpRequestUploadResourcePath + "/" + uploadDate + "/" + newFileName;
+    baseHttpRequestUploadResourcePath + uploadDate + "/" + newFileName;
   if (!fs.existsSync(newFileFolder)) {
     console.log("upload folder not exists create folder:");
     console.log(newFileFolder);
