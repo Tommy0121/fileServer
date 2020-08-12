@@ -12,21 +12,13 @@ const app = express();
 
 app.engine(".html", ejs.__express);
 app.set("views", "static/build");
+// 使用view engine让html文件render
 app.set("view engine", "html");
 app.use("/", express.static("resource"));
 app.use(bodyParser.json());
 
-// set cros origin settings
+// 
 app.all("*", function (req, res, next) {
-  res.header("Access-Control-Allow-origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Content-Type,Content-Length, Authorization, Accept,X-Requested-With"
-  );
-  res.header("Access-Control-Allow-Methods", "POST");
-  res.header("X-Powered-By", " 3.2.1");
-  res.header("Content-Type", "application/json;charset=utf-8");
-
   if (!fs.existsSync(baseResourceDiskPath)) {
 
     fs.mkdirSync(baseResourceDiskPath)

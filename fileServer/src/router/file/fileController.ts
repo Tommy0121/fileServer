@@ -95,18 +95,5 @@ fileRouter.get("/fileHello", (req, res) => {
   res.send(" hello file router ");
 });
 
-// do not delete any file case i have not any backup
-
-// fileRouter.post("/delete", (req, res) => {
-//   const filePath = req.body.filePath;
-
-//   if (fs.existsSync(filePath)) {
-//     fs.unlinkSync(filePath);
-//   }
-//   res.send({
-//     status: 1,
-//     message: "success",
-//   });
-// });
 
 export default fileRouter;
