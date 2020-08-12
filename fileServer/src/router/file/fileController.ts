@@ -16,8 +16,9 @@ const fileRouter = express.Router();
 
 fileRouter.post("/uploadFile", upload.single("img"), function (req, res) {
   const prePath = req.file.path;
+  console.log(prePath);
   const newFileName = getNewFileName(
-    prePath.split("\\"),
+    prePath.split("\/"),
     req.file.originalname
   );
   const uploadDate = moment().format("YYYY-MM-DD");
@@ -43,10 +44,10 @@ fileRouter.post("/uploadFile", upload.single("img"), function (req, res) {
       }
       console.log("file write finished");
       // In linux it will be a temp folder to save file and need to delete
-      fs.readdirSync("\\uploads").map((file) => {
-        fs.unlinkSync(`\\uploads/${file}`);
-        console.log("temp file delete finished");
-      });
+      //fs.readdirSync("\\uploads").map((file) => {
+      //  fs.unlinkSync(`\\uploads/${file}`);
+      //  console.log("temp file delete finished");
+      //});
     });
   } catch (e) {
     console.log(e);
