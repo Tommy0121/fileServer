@@ -1,4 +1,9 @@
 {
     "private":true,
-    "workspaces":["file-control","fileServer"]
+    "workspaces":["file-control","fileServer"],
+    "scripts": {
+        "clean-build":"rimraf **/dist **/build",
+        "clean-modules":"rimraf **/node_modules",
+        "clean-install":"yarn clean-build && yarn clean-modules && yarn install"
+    }
 }
