@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { message, Icon, Upload, Modal } from "antd";
+import { FolderOpenOutlined, PlusOutlined } from '@ant-design/icons';
+import { message, Upload, Modal } from "antd";
 import { UploadChangeParam } from "antd/lib/upload";
 import { UploadFile, RcFile } from "antd/lib/upload/interface";
 import axios from "axios";
@@ -103,42 +104,40 @@ const FileUploadPage = () => {
 
   const uploadButton = (
     <div>
-      <Icon type="plus" />
+      <PlusOutlined />
       <div className="ant-upload-text">Upload</div>
     </div>
   );
 
-  return (
-    <>
-      <div className="file-container">
-        {folders.map((item, index) => {
-          return (
-            <div className="col-img" key={index.toString()} onClick={() => {handlePackageClick(item)}}>
-              <Icon type="folder-open" theme="filled" className="file-icon" />
-              <span>{item}</span>
-            </div>
-          );
-        })}
+  return <>
+    <div className="file-container">
+      {folders.map((item, index) => {
+        return (
+          <div className="col-img" key={index.toString()} onClick={() => {handlePackageClick(item)}}>
+            <FolderOpenOutlined />
+            <span>{item}</span>
+          </div>
+        );
+      })}
+    </div>
+    <div className="file-upload-container">
+      <div>
+        <Upload
+          name="img"
+          action={RequestUrls.uploadFile}
+          listType="picture-card"
+          onChange={handleChange}
+          beforeUpload={beforeUpload}
+          showUploadList={false}
+        >
+          {uploadButton}
+        </Upload>
       </div>
-      <div className="file-upload-container">
-        <div>
-          <Upload
-            name="img"
-            action={RequestUrls.uploadFile}
-            listType="picture-card"
-            onChange={handleChange}
-            beforeUpload={beforeUpload}
-            showUploadList={false}
-          >
-            {uploadButton}
-          </Upload>
-        </div>
 
-        <Modal visible={previewVisible} footer={null} onCancel={handleCancel}>
-          <img alt="example" style={{ width: "100%" }} src={imgUrl} />
-        </Modal>
-      </div>
-    </>
-  );
+      <Modal visible={previewVisible} footer={null} onCancel={handleCancel}>
+        <img alt="example" style={{ width: "100%" }} src={imgUrl} />
+      </Modal>
+    </div>
+  </>;
 };
 export default FileUploadPage;

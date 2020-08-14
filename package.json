@@ -1,9 +1,17 @@
 {
-    "private":true,
-    "workspaces":["file-control","fileServer"],
+    "private": true,
+    "workspaces": [
+        "file-control",
+        "fileServer"
+    ],
     "scripts": {
-        "clean-build":"rimraf **/dist **/build",
-        "clean-modules":"rimraf **/node_modules",
-        "clean-install":"yarn clean-build && yarn clean-modules && yarn install"
+        "clean-build": "rimraf **/dist **/build",
+        "clean-modules": "rimraf **/node_modules",
+        "clean-install": "yarn clean-build && yarn clean-modules && yarn install",
+        "build": "lerna run build"
+    },
+    "name": "fileServer",
+    "devDependencies": {
+        "lerna": "^3.22.1"
     }
 }

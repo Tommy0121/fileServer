@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Layout, Menu, Icon } from "antd";
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { Layout, Menu } from "antd";
 import { history } from "../../configureStore/ConfigureStore";
 
 export const navigationMenuData: MainMenuData[] = [
@@ -38,7 +39,7 @@ const SideBar = (props: SideBarProps) => {
     if (item.item === undefined && item.url) {
       return (
         <Menu.Item key={item.key}>
-          <Icon type={item.iconType} />
+          <LegacyIcon type={item.iconType} />
           <span>{item.title}</span>
         </Menu.Item>
       );
@@ -49,7 +50,7 @@ const SideBar = (props: SideBarProps) => {
           key={item.key}
           title={
             <span>
-              <Icon type={item.iconType} />
+              <LegacyIcon type={item.iconType} />
               {item.title}
             </span>
           }
