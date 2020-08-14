@@ -35,7 +35,7 @@ const SideBar = (props: SideBarProps) => {
   const { defaultSelected, defaultOpened, mainMenuData } = props;
 
   const renderItem = (item: MainMenuData) => {
-    if (item.item===undefined && item.url) {
+    if (item.item === undefined && item.url) {
       return (
         <Menu.Item key={item.key}>
           <Icon type={item.iconType} />
@@ -54,7 +54,7 @@ const SideBar = (props: SideBarProps) => {
             </span>
           }
         >
-          {temp.item.map((sub:SubMenuData) => (
+          {temp.item.map((sub: SubMenuData) => (
             <Menu.Item key={sub.key}>{sub.title}</Menu.Item>
           ))}
         </SubMenu>
