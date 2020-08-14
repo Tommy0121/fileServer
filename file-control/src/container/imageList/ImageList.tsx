@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Upload, Modal } from "antd";
-import { RequestUrls, baseResourceUrl } from "../fileUpload/FileUpload";
 import axios from "axios";
 import "./_imageList.scss";
+import { RequestUrls, baseResourceUrl } from "../constanst";
 type DisplayType = {
   uid: string;
   name: string;
@@ -12,19 +12,19 @@ type DisplayType = {
 const ImageList = (props) => {
   const [fileList, setFileList] = useState([]);
   const [previewVisible, setPreviewVisible] = useState(false);
-  
+
   const [previewImage, setPreviewImage] = useState("");
 
-  const signal = React.useMemo(() => axios.CancelToken.source(),[]);
+  const signal = React.useMemo(() => axios.CancelToken.source(), []);
 
   const fetchImageData = React.useCallback(async () => {
     const packageName = props.location.state.packageName;
     const result = await axios.get(RequestUrls.fileList(packageName), {
       cancelToken: signal.token,
     });
-    
+
     let displayData = result.data.map(
-      (item: string, index:string): DisplayType => {
+      (item: string, index: string): DisplayType => {
         return {
           uid: index,
           name: item,
@@ -34,16 +34,15 @@ const ImageList = (props) => {
       }
     );
     setFileList(displayData);
-  },[]);
+  }, []);
 
-  // const fetchImageData = 
 
   useEffect(() => {
     fetchImageData();
     return () => {
       signal.cancel("cancel api call");
     };
-  }, [fetchImageData,signal]);
+  }, [fetchImageData, signal]);
 
   const handleCancel = () => {
     setPreviewVisible(false);

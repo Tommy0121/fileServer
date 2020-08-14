@@ -5,6 +5,7 @@ import { UploadChangeParam } from "antd/lib/upload";
 import { UploadFile, RcFile } from "antd/lib/upload/interface";
 import axios from "axios";
 import {history} from '../../configureStore/ConfigureStore'
+import { baseResourceUrl, RequestUrls } from "../constanst";
 
 
 const beforeUpload = (file: RcFile) => {
@@ -20,22 +21,8 @@ const beforeUpload = (file: RcFile) => {
   return isJpgOrPng && isLt2M;
 }
 
-export const baseResourceUrl = process.env.NODE_ENV  === "development" ? "http://localhost:3999": "http://123.207.87.254:3999";
-
-export const baseHttpUrl =  `${baseResourceUrl}/api`;
 
 
-// export const baseHttpUrl = process.env.NODE_ENV  === "development" ? "http://localhost:3999": "http://123.207.87.254:3999";
-
-
-const fileApiUrl = {
-  uploadFile:`${baseHttpUrl}/file/uploadFile`,
-  fileList:(packageName:string) => `${baseHttpUrl}/file/fileList/${packageName}`,
-  fileDirs:`${baseHttpUrl}/file/imageDirs`,
-}
-export const RequestUrls = {
-  ...fileApiUrl
-};
 
 
 
