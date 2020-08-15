@@ -3,7 +3,6 @@ import { Layout } from "antd";
 import { Switch, Route } from "react-router-dom";
 import FileUploadPage from "./fileUpload/FileUpload";
 import ImageList from "./imageList/ImageList";
-import "./container.scss";
 
 const Container = () => {
   const { Content } = Layout;
