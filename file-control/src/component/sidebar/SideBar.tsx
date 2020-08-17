@@ -8,8 +8,7 @@ export const navigationMenuData: MainMenuData[] = [
   {
     iconType: "video-camera",
     title: "fileUpload",
-    key: "fileUpload",
-    url: "/",
+    key: "/",
   },
 ];
 
@@ -57,21 +56,16 @@ const renderMenuWithSubMenu = (menu: MainMenuData) => {
   );
 };
 
-const sideBarDefaultProps = {
-  defaultSelected: ["/"],
-  defaultOpened: ["fileUpload"],
-  mainMenuData: navigationMenuData,
-};
 
-const SideBar = (props: SideBarProps = sideBarDefaultProps) => {
+const SideBar = (props: SideBarProps ) => {
   const [trigger, setTrigger] = useState<string | null>(null);
 
   const { defaultSelected, defaultOpened, mainMenuData } = props;
 
   const renderItem = (data: MainMenuData) => {
     return data.item
-      ? renderMenuWithoutSubMenu(data)
-      : renderMenuWithSubMenu(data);
+      ? renderMenuWithSubMenu(data)
+      : renderMenuWithoutSubMenu(data);
   };
 
   return (
@@ -105,5 +99,9 @@ const SideBar = (props: SideBarProps = sideBarDefaultProps) => {
     </Sider>
   );
 };
-
+SideBar.defaultProps = {
+  defaultSelected: ["/"],
+  defaultOpened: ["/"],
+  mainMenuData: navigationMenuData,
+};
 export default SideBar;
