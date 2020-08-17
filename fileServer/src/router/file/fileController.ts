@@ -5,6 +5,7 @@ import {
   baseUploadDiskPath,
   baseHttpRequestUploadResourcePath,
 } from "../../constant";
+import { FileListResponseModel } from "../../models";
 import multer from "multer";
 import moment from "moment";
 
@@ -16,11 +17,7 @@ const fileRouter = express.Router();
 
 fileRouter.post("/uploadFile", upload.single("img"), function (req, res) {
   const prePath = req.file.path;
-  console.log(prePath);
-  const newFileName = getNewFileName(
-    prePath.split("\/"),
-    req.file.originalname
-  );
+  const newFileName = getNewFileName(prePath.split("/"), req.file.originalname);
   const uploadDate = moment().format("YYYY-MM-DD");
   const newFileFolder = `${baseUploadDiskPath}/${uploadDate}`;
   const newFilePath = newFileFolder + "/" + newFileName;
@@ -32,9 +29,6 @@ fileRouter.post("/uploadFile", upload.single("img"), function (req, res) {
     console.log(newFileFolder);
     fs.mkdirSync(newFileFolder);
   }
-
-  console.log("new file path");
-  console.log(newFilePath);
 
   try {
     const value = fs.readFileSync(prePath);
@@ -80,13 +74,15 @@ fileRouter.get("/fileList/:package", (req, res) => {
   const packageName = req.params.package;
   const packagePath = baseUploadDiskPath + "/" + packageName;
   const files = fs.readdirSync(packagePath);
-  const result: string[] = [];
+  const result: FileListResponseModel[] = [];
   files.forEach((item) => {
     let stat = fs.lstatSync(packagePath + "/" + item);
     if (stat.isFile()) {
-      result.push(
-        `${baseHttpRequestUploadResourcePath + "/" + packageName}/${item}`
-      );
+      stat.size;
+      result.push({
+        url: `${baseHttpRequestUploadResourcePath + "/" + packageName}/${item}`,
+        size: stat.size,
+      });
     }
   });
   res.send(result);
@@ -95,6 +91,5 @@ fileRouter.get("/fileList/:package", (req, res) => {
 fileRouter.get("/fileHello", (req, res) => {
   res.send(" hello file router ");
 });
-
 
 export default fileRouter;

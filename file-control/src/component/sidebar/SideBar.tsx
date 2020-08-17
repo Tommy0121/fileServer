@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { Icon as LegacyIcon } from "@ant-design/compatible";
 import { Layout, Menu } from "antd";
 import { history } from "../../configureStore/ConfigureStore";
-
+const { Sider } = Layout;
+const { SubMenu } = Menu;
 export const navigationMenuData: MainMenuData[] = [
   {
     iconType: "video-camera",
     title: "fileUpload",
-    key: "/",
+    key: "fileUpload",
     url: "/",
   },
 ];
@@ -29,39 +30,50 @@ type SubMenuData = {
   title: string;
 };
 
-const SideBar = (props: SideBarProps) => {
+const renderMenuWithoutSubMenu = (menu: MainMenuData) => {
+  return (
+    <Menu.Item key={menu.key}>
+      <LegacyIcon type={menu.iconType} />
+      <span>{menu.title}</span>
+    </Menu.Item>
+  );
+};
+
+const renderMenuWithSubMenu = (menu: MainMenuData) => {
+  return (
+    <SubMenu
+      key={menu.key}
+      title={
+        <span>
+          <LegacyIcon type={menu.iconType} />
+          {menu.title}
+        </span>
+      }
+    >
+      {menu.item?.map((sub: SubMenuData) => (
+        <Menu.Item key={sub.key}>{sub.title}</Menu.Item>
+      ))}
+    </SubMenu>
+  );
+};
+
+const sideBarDefaultProps = {
+  defaultSelected: ["/"],
+  defaultOpened: ["fileUpload"],
+  mainMenuData: navigationMenuData,
+};
+
+const SideBar = (props: SideBarProps = sideBarDefaultProps) => {
   const [trigger, setTrigger] = useState<string | null>(null);
-  const { Sider } = Layout;
-  const { SubMenu } = Menu;
+
   const { defaultSelected, defaultOpened, mainMenuData } = props;
 
-  const renderItem = (item: MainMenuData) => {
-    if (item.item === undefined && item.url) {
-      return (
-        <Menu.Item key={item.key}>
-          <LegacyIcon type={item.iconType} />
-          <span>{item.title}</span>
-        </Menu.Item>
-      );
-    } else {
-      const temp = item as any;
-      return (
-        <SubMenu
-          key={item.key}
-          title={
-            <span>
-              <LegacyIcon type={item.iconType} />
-              {item.title}
-            </span>
-          }
-        >
-          {temp.item.map((sub: SubMenuData) => (
-            <Menu.Item key={sub.key}>{sub.title}</Menu.Item>
-          ))}
-        </SubMenu>
-      );
-    }
+  const renderItem = (data: MainMenuData) => {
+    return data.item
+      ? renderMenuWithoutSubMenu(data)
+      : renderMenuWithSubMenu(data);
   };
+
   return (
     <Sider
       width={trigger === null ? "20vw" : "40vw"}
@@ -88,18 +100,10 @@ const SideBar = (props: SideBarProps) => {
         }}
         theme="dark"
       >
-        {mainMenuData.map((main) => (
-          renderItem(main)
-        ))}
+        {mainMenuData.map((main) => renderItem(main))}
       </Menu>
     </Sider>
   );
-};
-
-SideBar.defaultProps = {
-  defaultSelected: ["/"],
-  defaultOpened: ["demoRoom"],
-  mainMenuData: navigationMenuData,
 };
 
 export default SideBar;

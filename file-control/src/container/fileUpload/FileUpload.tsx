@@ -27,7 +27,6 @@ const beforeUpload = (file: RcFile) => {
 
 
 const FileUploadPage = () => {
-  const [fileUploading, setFileUploading] = useState(false);
   const [imgUrl, setImgUrl] = useState("");
   const [previewVisible, setPreviewVisible] = useState(false);
   const [folders, setFolders] = useState<string[]>([]);
@@ -52,12 +51,10 @@ const FileUploadPage = () => {
 
   const handleChange = (info: UploadChangeParam<UploadFile>) => {
     if (info.file.status === "uploading") {
-      setFileUploading(true);
       return;
     }
     if (info.file.status === "done") {
       // first parameter should be response url
-      setFileUploading(false);
       setImgUrl(baseResourceUrl + info.file.response.path);
       if(copyUrl(baseResourceUrl + info.file.response.path)){
         message.success("地址已经复制")
