@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { FolderOpenOutlined, PlusOutlined } from '@ant-design/icons';
+import { Icon as LegacyIcon } from "@ant-design/compatible";
 import { message, Upload, Modal } from "antd";
 import { UploadChangeParam } from "antd/lib/upload";
 import { UploadFile, RcFile } from "antd/lib/upload/interface";
 import axios from "axios";
 import {history} from '../../configureStore/ConfigureStore'
 import { baseResourceUrl, RequestUrls } from "../constanst";
-
+import httpRequest from '../../httpRequest/index';
 
 const beforeUpload = (file: RcFile) => {
   const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png" || file.type === "image/gif";
@@ -36,10 +36,8 @@ const FileUploadPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios.get(RequestUrls.fileDirs, {
-        cancelToken: signal.token,
-      });
-      setFolders(result.data);
+      const result = await httpRequest.getFolderList(signal);
+      setFolders(result);
     };
     fetchData();
     return () => {
@@ -88,7 +86,7 @@ const FileUploadPage = () => {
 
   const uploadButton = (
     <div>
-      <PlusOutlined />
+       <LegacyIcon type="plus"/>
       <div className="ant-upload-text">Upload</div>
     </div>
   );
@@ -98,7 +96,7 @@ const FileUploadPage = () => {
       {folders.map((item, index) => {
         return (
           <div className="col-img" key={index.toString()} onClick={() => {handlePackageClick(item)}}>
-            <FolderOpenOutlined />
+            <LegacyIcon type="folder-open" theme="filled" className="file-icon" />
             <span>{item}</span>
           </div>
         );

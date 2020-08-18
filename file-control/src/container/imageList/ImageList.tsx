@@ -5,6 +5,7 @@ import "./_imageList.scss";
 import { RequestUrls, baseResourceUrl } from "../constanst";
 import { UploadFile } from "antd/lib/upload/interface";
 import {FileListResponseModel} from 'file-server-models';
+import httpRequest from '../../httpRequest/index';
 
 
 const ImageList = (props) => {
@@ -17,17 +18,12 @@ const ImageList = (props) => {
 
   const fetchImageData = React.useCallback(async () => {
     const packageName = props.location.state.packageName;
-    const result = await axios.get<FileListResponseModel[]>(
-      RequestUrls.fileList(packageName),
-      {
-        cancelToken: signal.token,
-      }
-    );
+    const result = await httpRequest.getFileList(packageName,signal);
 
-    let displayData = result.data.map((item: FileListResponseModel, index: number) => ({
+    let displayData = result.map((item: FileListResponseModel, index: number) => ({
       uid: index,
       name: item.url,
-      url: baseResourceUrl + "/" + item,
+      url: baseResourceUrl + "/" + item.url,
       status: "done",
       size:item.size
     }));

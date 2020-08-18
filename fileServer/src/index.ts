@@ -2,13 +2,21 @@ import express from "express";
 import fs from "fs";
 import { baseResourceDiskPath, baseUploadDiskPath } from "./constant";
 import bodyParser from "body-parser";
+import http from 'http';
 
 import ejs from "ejs";
+import socketio from 'socket.io';
+
+
+
 import router from "./router/index";
 
 const port = 3999;
 
 const app = express();
+const server = http.createServer(app);
+
+const socket = socketio(server);
 
 app.engine(".html", ejs.__express);
 app.set("views", "static/build");
@@ -29,6 +37,12 @@ app.all("*", function (req, res, next) {
 
 app.use("/api", router);
 
-app.listen(port, () => {
+
+socket.on('connection',(socket) => {
+  const socketId = socket.id
+  console.log('a user connected');
+})
+
+server.listen(port, () => {
   console.log(`listen in ${port}`);
 });
