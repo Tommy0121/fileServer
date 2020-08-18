@@ -5,7 +5,7 @@ import {
   baseUploadDiskPath,
   baseHttpRequestUploadResourcePath,
 } from "../../constant";
-import { FileListResponseModel } from "../../models";
+import { FileListResponseModel } from "file-server-models";
 import multer from "multer";
 import moment from "moment";
 

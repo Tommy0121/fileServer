@@ -1,9 +1,14 @@
 {
-  "name": "models",
+  "name": "file-server-models",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "license": "MIT",
   "dependencies": {
     "typescript": "^3.9.7"
+  },
+  "scripts": {
+    "init-tsconfig":"tsc --init",
+    "build":"tsc"
   }
 }

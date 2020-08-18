@@ -1,5 +1,5 @@
 
-import {FileListResponseModel} from '../container/imageList/ImageList';
+import {FileListResponseModel} from 'file-server-models';
 
 export const fileDirsMockData = [
     "2020-10-10",

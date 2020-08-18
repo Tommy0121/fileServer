@@ -2,7 +2,8 @@
     "private": true,
     "workspaces": [
         "file-control",
-        "fileServer"
+        "fileServer",
+        "lib/**"
     ],
     "scripts": {
         "clean-build": "rimraf **/dist **/build",

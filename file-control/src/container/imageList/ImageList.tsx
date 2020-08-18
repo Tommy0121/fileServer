@@ -4,12 +4,7 @@ import axios from "axios";
 import "./_imageList.scss";
 import { RequestUrls, baseResourceUrl } from "../constanst";
 import { UploadFile } from "antd/lib/upload/interface";
-
-// this should be in lib/models
-export type FileListResponseModel = {
-  url: string;
-  size: number;
-};
+import {FileListResponseModel} from 'file-server-models';
 
 
 const ImageList = (props) => {
