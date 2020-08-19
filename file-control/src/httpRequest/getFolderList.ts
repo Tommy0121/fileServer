@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { fileDirsMockData } from "../mock/MockData";
 import { CancelTokenSource } from "axios";
-import { RequestUrls } from '../container/constanst';
+import { RequestUrls } from '../constanst';
 
 export const getFolderListMock: (
   signal: CancelTokenSource

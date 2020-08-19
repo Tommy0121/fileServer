@@ -24,28 +24,30 @@ fileRouter.post("/uploadFile", upload.single("img"), function (req, res) {
 
   const result =
     baseHttpRequestUploadResourcePath + uploadDate + "/" + newFileName;
-  if (!fs.existsSync(newFileFolder)) {
-    console.log("upload folder not exists create folder:");
-    console.log(newFileFolder);
-    fs.mkdirSync(newFileFolder);
-  }
 
-  try {
-    const value = fs.readFileSync(prePath);
-    fs.writeFile(newFilePath, value, (e) => {
-      if (e) {
-        console.log(e);
+    fs.exists(newFileFolder,(exits)=>{
+      if(!exits){
+        console.log("upload folder not exists create folder:"+newFileFolder);
+        fs.mkdir(newFileFolder,err=>{
+          if (err) {
+            console.log(err.message)
+          }
+        })
       }
-      console.log("file write finished");
-      // In linux it will be a temp folder to save file and need to delete
-      //fs.readdirSync("\\uploads").map((file) => {
-      //  fs.unlinkSync(`\\uploads/${file}`);
-      //  console.log("temp file delete finished");
-      //});
-    });
-  } catch (e) {
-    console.log(e);
-  }
+    })
+
+    fs.readFile(prePath,(err,buffer)=>{
+      if (err) {
+        console.log(err)
+      }
+      fs.writeFile(newFilePath,buffer,e=>{
+        if (e) {
+          console.log(e);
+        }
+        console.log("file wirte finished");
+      })
+    })
+   
 
   res.send({
     status: 1,

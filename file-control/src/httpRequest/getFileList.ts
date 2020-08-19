@@ -1,7 +1,7 @@
 import axios, { CancelTokenSource } from "axios";
 import { fileListMockData } from "../mock/MockData";
 import { FileListResponseModel } from "file-server-models";
-import { RequestUrls } from "../container/constanst";
+import { RequestUrls } from "../constanst";
 
 export const getFileListMock: (
   packageName: string,

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Upload, Modal } from "antd";
 import axios from "axios";
 import "./_imageList.scss";
-import { RequestUrls, baseResourceUrl } from "../constanst";
+import { RequestUrls, baseResourceUrl } from "../../constanst";
 import { UploadFile } from "antd/lib/upload/interface";
 import {FileListResponseModel} from 'file-server-models';
 import httpRequest from '../../httpRequest/index';

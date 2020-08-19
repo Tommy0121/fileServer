@@ -5,7 +5,7 @@ import { UploadChangeParam } from "antd/lib/upload";
 import { UploadFile, RcFile } from "antd/lib/upload/interface";
 import axios from "axios";
 import {history} from '../../configureStore/ConfigureStore'
-import { baseResourceUrl, RequestUrls } from "../constanst";
+import { baseResourceUrl, RequestUrls } from "../../constanst";
 import httpRequest from '../../httpRequest/index';
 
 const beforeUpload = (file: RcFile) => {
