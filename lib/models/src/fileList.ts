@@ -1,6 +1,10 @@
-// this should be in lib/models
-export type FileListResponseModel = {
-    url: string;
-    size: number;
-  };
-  
+import { responseType } from "./commonResponse";
+
+type FileListType = {
+  url: string;
+  size: number;
+};
+
+export type FileListResponseModel = responseType & {
+  data: FileListType;
+};
