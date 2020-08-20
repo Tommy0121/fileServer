@@ -10,6 +10,11 @@ export const navigationMenuData: MainMenuData[] = [
     title: "fileUpload",
     key: "/",
   },
+  {
+    iconType: "video-camera",
+    title: "chatroom",
+    key: "/chatroom",
+  },
 ];
 
 type SideBarProps = {

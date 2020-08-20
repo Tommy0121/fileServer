@@ -3,6 +3,7 @@ import { Layout } from "antd";
 import { Switch, Route } from "react-router-dom";
 import FileUploadPage from "./fileUpload/FileUpload";
 import ImageList from "./imageList/ImageList";
+import ChatRoom from './chatRoom/chatRoom';
 
 const Container = () => {
   const { Content } = Layout;
@@ -12,6 +13,7 @@ const Container = () => {
         <Switch>
           <Route path="/" exact component={FileUploadPage} />
           <Route path="/list" component={ImageList} />
+          <Route path="/chatroom" component={ChatRoom}/>
         </Switch>
       </Content>
     </Layout>

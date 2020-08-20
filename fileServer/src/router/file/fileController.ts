@@ -1,5 +1,6 @@
 import express from "express";
 import fs from "fs";
+import os from 'os';
 import { getNewFileName, isEmptyFolder } from "../../util";
 import {
   baseUploadDiskPath,
@@ -17,7 +18,7 @@ const fileRouter = express.Router();
 
 fileRouter.post("/uploadFile", upload.single("img"), function (req, res) {
   const prePath = req.file.path;
-  const newFileName = getNewFileName(prePath.split("/"), req.file.originalname);
+  const newFileName = getNewFileName(prePath.split("\\"), req.file.originalname);
   const uploadDate = moment().format("YYYY-MM-DD");
   const newFileFolder = `${baseUploadDiskPath}/${uploadDate}`;
   const newFilePath = newFileFolder + "/" + newFileName;
