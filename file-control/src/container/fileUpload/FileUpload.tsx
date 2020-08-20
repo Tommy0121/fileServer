@@ -5,7 +5,7 @@ import { UploadChangeParam } from "antd/lib/upload";
 import { UploadFile, RcFile } from "antd/lib/upload/interface";
 import axios from "axios";
 import {history} from '../../configureStore/ConfigureStore'
-import { baseResourceUrl, RequestUrls } from "../../constanst";
+import {baseResourceUrl,  RequestUrls } from "../../constanst";
 import httpRequest from '../../httpRequest/index';
 
 const beforeUpload = (file: RcFile) => {
@@ -53,7 +53,7 @@ const FileUploadPage = () => {
     }
     if (info.file.status === "done") {
       // first parameter should be response url
-      setImgUrl(baseResourceUrl + info.file.response.path);
+      setImgUrl(info.file.response.path);
       if(copyUrl(baseResourceUrl + info.file.response.path)){
         message.success("地址已经复制")
       }

@@ -1,15 +1,15 @@
 
 export const baseResourceUrl = process.env.NODE_ENV  === "development" ? "http://localhost:3999": "http://123.207.87.254:3999";
 
-// export const baseResourceUrl =  "http://123.207.87.254:3999";
+// export const baseResourceUrl =  "";
 
-export const baseHttpUrl =  `${baseResourceUrl}/api`;
+// export const baseHttpUrl =  `${baseResourceUrl}/api`;
 
 
 const fileApiUrl = {
-  uploadFile:`${baseHttpUrl}/file/uploadFile`,
-  fileList:(packageName:string) => `${baseHttpUrl}/file/fileList/${packageName}`,
-  fileDirs:`${baseHttpUrl}/file/imageDirs`,
+  uploadFile:`/api/file/uploadFile`,
+  fileList:(packageName:string) => `/api/file/fileList/${packageName}`,
+  fileDirs:`/api/file/imageDirs`,
 }
 
 export const RequestUrls = {
