@@ -1,12 +1,14 @@
 import React from "react";
-import Loading,{LoadingThreeDot} from "../../component/loading/loading";
+import Loading, { LoadingThreeDot } from "../../component/loading/loading";
+
+
 
 const chatRoom = () => {
   return (
-    <div>
+    <div style={{ backgroundColor: "snow",padding:'24px' }}>
       asdf
       <Loading />
-      <LoadingThreeDot/>
+      <LoadingThreeDot />
     </div>
   );
 };

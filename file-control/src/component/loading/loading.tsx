@@ -1,11 +1,11 @@
 import React from 'react'
-import './loading.scss'
+import loadingStyle from './loading.module.scss'
 
 export const LoadingCycle = ()=>{
 
 
     return(
-        <div className="loading-cycle">
+        <div className={loadingStyle['loading-cycle']}>
         </div>
     )
 }
@@ -13,10 +13,10 @@ export const LoadingCycle = ()=>{
 export const LoadingThreeDot = () => {
 
     return (
-        <div className="loading-threedot">
-            <span className="dot"></span>
-            <span className="dot"></span>
-            <span className="dot"></span>
+        <div className={loadingStyle["loading-threedot"]}>
+            <span className={loadingStyle["dot"]}></span>
+            <span className={loadingStyle["dot"]}></span>
+            <span className={loadingStyle["dot"]}></span>
         </div>
     )
 }

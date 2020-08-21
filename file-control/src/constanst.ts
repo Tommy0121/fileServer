@@ -1,3 +1,4 @@
+import io from 'socket.io-client';
 
 export const baseResourceUrl = process.env.NODE_ENV  === "development" ? "http://localhost:3999": "http://123.207.87.254:3999";
 
@@ -15,3 +16,6 @@ const fileApiUrl = {
 export const RequestUrls = {
   ...fileApiUrl
 };
+
+
+export const socket = io(baseResourceUrl);
