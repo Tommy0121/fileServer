@@ -6,7 +6,7 @@ import { RequestUrls } from "../constanst";
 export const getFileListMock: (
   packageName: string,
   signal: CancelTokenSource
-) => Promise<FileListResponseModel[]> = async (
+) => Promise<FileListResponseModel> = async (
   packageName: string,
   signal: CancelTokenSource
 ) =>
@@ -20,7 +20,7 @@ export const getFileList = async (
   packageName: string,
   signal: CancelTokenSource
 ) => {
-  const result = await axios.get<FileListResponseModel[]>(
+  const result = await axios.get<FileListResponseModel>(
     RequestUrls.fileList(packageName),
     {
       cancelToken: signal.token,

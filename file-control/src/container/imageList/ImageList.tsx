@@ -4,7 +4,7 @@ import axios from "axios";
 import "./_imageList.scss";
 import { RequestUrls, baseResourceUrl } from "../../constanst";
 import { UploadFile } from "antd/lib/upload/interface";
-import {FileListResponseModel} from 'file-server-models';
+import {FileListResponseModel,FileListType} from 'file-server-models';
 import httpRequest from '../../httpRequest/index';
 
 
@@ -20,12 +20,12 @@ const ImageList = (props) => {
     const packageName = props.location.state.packageName;
     const result = await httpRequest.getFileList(packageName,signal);
 
-    let displayData = result.map((item: FileListResponseModel, index: number) => ({
+    let displayData = result.data.map((item: FileListType, index: number) => ({
       uid: index,
-      name: item.data.url,
-      url: baseResourceUrl + "/" + item.data.url,
+      name: item.url,
+      url: baseResourceUrl + "/" + item.url,
       status: "done",
-      size:item.data.size
+      size:item.size
     }));
     setFileList(displayData);
   }, []);

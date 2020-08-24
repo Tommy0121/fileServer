@@ -77,21 +77,24 @@ fileRouter.get("/fileList/:package", (req, res) => {
   const packageName = req.params.package;
   const packagePath = baseUploadDiskPath + "/" + packageName;
   const files = fs.readdirSync(packagePath);
-  const result: FileListResponseModel[] = [];
+  let result: FileListResponseModel = {
+    status:-1,
+    message:'failure',
+    data:[]
+  } ;
   files.forEach((item) => {
     let stat = fs.lstatSync(packagePath + "/" + item);
     if (stat.isFile()) {
       stat.size;
-      result.push({
-        data:{
+      result.data.push({
           url: `${baseHttpRequestUploadResourcePath + "/" + packageName}/${item}`,
           size: stat.size,
-        }
+        
        
       });
     }
   });
-  res.send(result);
+  res.send({...result,status:1,message:'success'});
 });
 
 fileRouter.get("/fileHello", (req, res) => {
