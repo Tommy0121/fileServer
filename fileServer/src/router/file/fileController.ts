@@ -83,8 +83,11 @@ fileRouter.get("/fileList/:package", (req, res) => {
     if (stat.isFile()) {
       stat.size;
       result.push({
-        url: `${baseHttpRequestUploadResourcePath + "/" + packageName}/${item}`,
-        size: stat.size,
+        data:{
+          url: `${baseHttpRequestUploadResourcePath + "/" + packageName}/${item}`,
+          size: stat.size,
+        }
+       
       });
     }
   });

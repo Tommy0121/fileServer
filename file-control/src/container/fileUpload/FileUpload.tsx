@@ -7,6 +7,7 @@ import axios from "axios";
 import { history } from "../../configureStore/ConfigureStore";
 import { baseResourceUrl, RequestUrls } from "../../constanst";
 import httpRequest from "../../httpRequest/index";
+import {uploadFileResponseModel} from 'file-server-models'
 
 const beforeUpload = (file: RcFile) => {
   const isJpgOrPng =
@@ -66,9 +67,10 @@ const FileUploadPage = () => {
       return;
     }
     if (info.file.status === "done") {
+      const response = info.file.response as uploadFileResponseModel
       // first parameter should be response url
-      setImgUrl(info.file.response.path);
-      if (copyUrl(baseResourceUrl + info.file.response.path)) {
+      setImgUrl(response.data);
+      if (copyUrl(baseResourceUrl + response)) {
         message.success("地址已经复制");
       }
 

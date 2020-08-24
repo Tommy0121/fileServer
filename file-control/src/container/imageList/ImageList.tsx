@@ -22,10 +22,10 @@ const ImageList = (props) => {
 
     let displayData = result.map((item: FileListResponseModel, index: number) => ({
       uid: index,
-      name: item.url,
-      url: baseResourceUrl + "/" + item.url,
+      name: item.data.url,
+      url: baseResourceUrl + "/" + item.data.url,
       status: "done",
-      size:item.size
+      size:item.data.size
     }));
     setFileList(displayData);
   }, []);

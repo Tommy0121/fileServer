@@ -9,6 +9,7 @@
         "clean-build": "rimraf **/dist **/build",
         "clean-modules": "rimraf **/node_modules",
         "clean-install": "yarn clean-build && yarn clean-modules && yarn install",
+        "build-lib":"lerna run build --scope \"file-server-models\"",
         "build": "lerna run build"
     },
     "name": "fileServer",
