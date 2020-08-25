@@ -8,7 +8,7 @@ pipeline {
         }
         stage('Deploy'){
             steps{
-                bat 'xcopy /y /c /h /r /s /e ./file-control/build/* ./fileServer/resource/'
+                bat 'xcopy /y /c /h /r /s /e .\\file-control\\build\\* .\\fileServer\\resource\\'
             }
         }
     }
