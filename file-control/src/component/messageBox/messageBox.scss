@@ -1,0 +1,41 @@
+.message-container{
+    display: flex;
+    align-items: center;
+
+    // @media screen and (min-width: 768px){
+
+    // }
+} 
+.left-arrow{
+    border: 7px solid;
+
+    @media only screen and (device-width:375px) and (-webkit-device-pixel-ratio:3){
+        border: 0.5rem solid;
+    }
+  
+    &.first{
+        border-color: transparent green transparent transparent;
+    }
+    &.second{
+        border-color: transparent #f0f2f5 transparent transparent;
+    }
+    
+}
+.message-content{
+   
+    min-height: 35px;
+    padding:0 3px;
+    display:flex;
+    align-items: center;
+    border-radius: 5px;
+    &.second{
+        background:#f0f2f5;
+    }
+    &.first{
+        background:green;
+    }
+}
+
+.message{
+    display:inline-block
+}
