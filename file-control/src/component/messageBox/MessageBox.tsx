@@ -11,9 +11,9 @@ const MessageBox = (props: MessageBoxProps) => {
   const messageType = props.firstPart ? "first" : "second";
 
   return (
-    <div className="message-container">
+    <div className={`message-container ${messageType}`}>
       <img src={avatar} width="35px" height="35px" />
-      <div className={`left-arrow ${messageType}`}></div>
+      <div className={`arrow ${messageType}`}></div>
       <div className={`message-content ${messageType}`}>
         <span className="message">{props.message}</span>
       </div>

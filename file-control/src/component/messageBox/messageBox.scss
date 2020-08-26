@@ -1,20 +1,23 @@
 .message-container{
     display: flex;
     align-items: center;
+    margin:1rem 0;
 
-    // @media screen and (min-width: 768px){
-
-    // }
-} 
-.left-arrow{
-    border: 7px solid;
-
-    @media only screen and (device-width:375px) and (-webkit-device-pixel-ratio:3){
-        border: 0.5rem solid;
+    &.first{
+      @media screen and (min-width: 768px){
+        flex-flow: row-reverse;
+      }
     }
+    
+} 
+.arrow{
+    border: 0.5rem solid;
   
     &.first{
         border-color: transparent green transparent transparent;
+        @media screen and (min-width: 768px){
+          border-color: transparent transparent transparent green;
+        }
     }
     &.second{
         border-color: transparent #f0f2f5 transparent transparent;

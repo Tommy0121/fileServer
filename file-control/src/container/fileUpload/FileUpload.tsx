@@ -69,7 +69,6 @@ const FileUploadPage = () => {
     }
     if (info.file.status === "done") {
       const response = info.file.response as uploadFileResponseModel;
-      console.log(response)
       // first parameter should be response url
       setImgUrl(response.data);
       if (copyUrl(baseResourceUrl + response.data)) {
