@@ -1,12 +1,11 @@
 import express from "express";
 import fs from "fs";
-import os from 'os';
 import { getNewFileName, isEmptyFolder } from "../../util";
 import {
   baseUploadDiskPath,
   baseHttpRequestUploadResourcePath,
 } from "../../constant";
-import { FileListResponseModel } from "file-server-models";
+import { FileListResponseModel, uploadFileResponseModel } from "file-server-models";
 import multer from "multer";
 import moment from "moment";
 
@@ -23,37 +22,39 @@ fileRouter.post("/uploadFile", upload.single("img"), function (req, res) {
   const newFileFolder = `${baseUploadDiskPath}/${uploadDate}`;
   const newFilePath = newFileFolder + "/" + newFileName;
 
-  const result =
-    baseHttpRequestUploadResourcePath + uploadDate + "/" + newFileName;
+  const result: uploadFileResponseModel =
+  {
+    status: -1,
+    message: "fail",
+    data: "",
+  }
+  const uri = baseHttpRequestUploadResourcePath + uploadDate + "/" + newFileName;
 
-    fs.exists(newFileFolder,(exits)=>{
-      if(!exits){
-        console.log("upload folder not exists create folder:"+newFileFolder);
-        fs.mkdir(newFileFolder,err=>{
-          if (err) {
-            console.log(err.message)
-          }
-        })
-      }
-    })
-
-    fs.readFile(prePath,(err,buffer)=>{
-      if (err) {
-        console.log(err)
-      }
-      fs.writeFile(newFilePath,buffer,e=>{
-        if (e) {
-          console.log(e);
+  fs.access(newFileFolder, fs.constants.F_OK, err => {
+    if (err) {
+      fs.mkdir(newFileFolder, err => {
+        if (err) {
+          console.log(err.message)
         }
-        console.log("file wirte finished");
       })
+    }
+  })
+
+  fs.readFile(prePath, (err, buffer) => {
+    if (err) {
+      console.log(err)
+    }
+    fs.writeFile(newFilePath, buffer, e => {
+      if (e) {
+        console.log(e);
+      }
+      console.log("file wirte finished");
     })
-   
+  })
+
 
   res.send({
-    status: 1,
-    msg: "success",
-    path: `/${result}`,
+    ...result, status: 1, message: "success", data: `/${uri}`
   });
 });
 
@@ -78,23 +79,23 @@ fileRouter.get("/fileList/:package", (req, res) => {
   const packagePath = baseUploadDiskPath + "/" + packageName;
   const files = fs.readdirSync(packagePath);
   let result: FileListResponseModel = {
-    status:-1,
-    message:'failure',
-    data:[]
-  } ;
+    status: -1,
+    message: 'failure',
+    data: []
+  };
   files.forEach((item) => {
     let stat = fs.lstatSync(packagePath + "/" + item);
     if (stat.isFile()) {
       stat.size;
       result.data.push({
-          url: `${baseHttpRequestUploadResourcePath + "/" + packageName}/${item}`,
-          size: stat.size,
-        
-       
+        url: `${baseHttpRequestUploadResourcePath + "/" + packageName}/${item}`,
+        size: stat.size,
+
+
       });
     }
   });
-  res.send({...result,status:1,message:'success'});
+  res.send({ ...result, status: 1, message: 'success' });
 });
 
 fileRouter.get("/fileHello", (req, res) => {

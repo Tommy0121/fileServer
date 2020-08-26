@@ -51,11 +51,12 @@ const FileUploadPage = () => {
 
   const signal = React.useMemo(() => axios.CancelToken.source(), []);
 
+  const fetchData = async () => {
+    const result = await httpRequest.getFolderList(signal);
+    setFolders(result);
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      const result = await httpRequest.getFolderList(signal);
-      setFolders(result);
-    };
+
     fetchData();
     return () => {
       signal.cancel("cancel api call");
@@ -67,14 +68,16 @@ const FileUploadPage = () => {
       return;
     }
     if (info.file.status === "done") {
-      const response = info.file.response as uploadFileResponseModel
+      const response = info.file.response as uploadFileResponseModel;
+      console.log(response)
       // first parameter should be response url
       setImgUrl(response.data);
-      if (copyUrl(baseResourceUrl + response)) {
+      if (copyUrl(baseResourceUrl + response.data)) {
         message.success("地址已经复制");
       }
 
       setPreviewVisible(true);
+      fetchData();
     }
   };
 
