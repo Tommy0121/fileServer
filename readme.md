@@ -16,4 +16,5 @@
     yarn config set registry http://registry.npm.taobao.org/
     查看当前代理
     yarn config get registry
+    推荐使用.yarnrc文件来设定yarn的config，具体yarn config选项参见官网 [yarn config](https://yarn.bootcss.com/docs/cli/config/)
   
