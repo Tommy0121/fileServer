@@ -2,12 +2,10 @@ import express from "express";
 import fs from "fs";
 import { baseResourceDiskPath, baseUploadDiskPath } from "./constant";
 import bodyParser from "body-parser";
-import http from 'http';
+import http from "http";
 
 import ejs from "ejs";
-import socketio from 'socket.io';
-
-
+import socketio from "socket.io";
 
 import router from "./router/index";
 
@@ -25,11 +23,10 @@ app.set("view engine", "html");
 app.use("/", express.static("resource"));
 app.use(bodyParser.json());
 
-// 
+//
 app.all("*", function (req, res, next) {
   if (!fs.existsSync(baseResourceDiskPath)) {
-
-    fs.mkdirSync(baseResourceDiskPath)
+    fs.mkdirSync(baseResourceDiskPath);
     fs.mkdirSync(baseUploadDiskPath);
   }
   next();
@@ -37,11 +34,18 @@ app.all("*", function (req, res, next) {
 
 app.use("/api", router);
 
-
-socket.on('connection',(socket) => {
-  const socketId = socket.id
-  console.log('a user connected');
-})
+socket.on("connection", (socket) => {
+  const socketId = socket.id;
+  socket.on("disconnect", (reason) => {
+    console.log("reason");
+    if (reason === "io client disconnect") {
+      // the disconnection was initiated by the server, you need to reconnect manually
+      console.log("disconnect");
+    } else {
+      console.log("object");
+    }
+  });
+});
 
 server.listen(port, () => {
   console.log(`listen in ${port}`);

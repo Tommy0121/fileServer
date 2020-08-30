@@ -1,4 +1,4 @@
-import io from 'socket.io-client';
+import io from "socket.io-client";
 
 export const baseResourceUrl = process.env.NODE_ENV  === "development" ? "http://localhost:3999": "http://123.207.87.254:3999";
 
@@ -18,4 +18,4 @@ export const RequestUrls = {
 };
 
 
-export const socket = io(baseResourceUrl);
+export const socket = io(baseResourceUrl,{autoConnect:false,reconnection:false})
