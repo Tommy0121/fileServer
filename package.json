@@ -9,13 +9,14 @@
         "clean-build": "rimraf **/dist **/build",
         "clean-modules": "rimraf **/node_modules",
         "clean-install": "yarn clean-build && yarn clean-modules && yarn install",
-        "build-lib":"lerna run build --scope \"file-server-models\"",
-        "build-front":"lerna run build --scope \"file-control\"",
-        "build-server":"lerna run build --scope \"fileServer\"",
+        "build-lib": "lerna run build --scope \"file-server-models\"",
+        "build-front": "lerna run build --scope \"file-control\"",
+        "build-server": "lerna run build --scope \"fileServer\"",
         "build": "lerna run build"
     },
     "name": "fileServer",
     "devDependencies": {
+        "husky": "^4.2.5",
         "lerna": "^3.22.1"
     }
 }
