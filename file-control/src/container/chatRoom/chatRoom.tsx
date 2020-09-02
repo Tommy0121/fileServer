@@ -4,6 +4,8 @@ import MessageBox, {
   MessageBoxProps,
 } from "../../component/messageBox/MessageBox";
 import { socket } from "../../constanst";
+import { Button } from "antd";
+import {withDebounce, withThrottle} from '../../httpRequest/httpClient'
 
 const ChatRoom = () => {
   const [connection, setConnection] = useState<SocketIOClient.Socket>();
@@ -21,24 +23,28 @@ const ChatRoom = () => {
       socket.open();
     }
     setConnection(socket);
+    socket.on('',()=>{
+      
+    })
     return () => {
       connection?.disconnect();
     };
   }, [connection]);
 
+  const handleClick = ()=>{
+    console.log('click');
+  }
+
   return (
     <div
-      style={{
-        backgroundColor: "snow",
-        padding: "24px 12px",
-        minHeight: "calc(100vh - 112px)",
-      }}
+      className="chatroom-container"
     >
-      asdf
       <Loading />
       <LoadingThreeDot />
       <MessageBox {...messageBoxProps} />
       <MessageBox {...result} />
+      <Button onClick={withDebounce(handleClick,500)}>withDebounce</Button>
+      <Button onClick={withThrottle(handleClick,500)}>withThrottle</Button>
     </div>
   );
 };

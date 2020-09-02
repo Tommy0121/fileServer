@@ -5,11 +5,29 @@ type MyRequestConfig = {
   throttle?: boolean
 }
 
-const debounce = (func,time:number) =>{
-
+export const withDebounce = (func:Function,time:number) =>{
+ 
+  let id:number|undefined=undefined
+  return ()=>{
+  
+    if(!id){
+      id=window.setTimeout(func,time);
+    }else{
+      window.clearTimeout(id);
+      id=window.setTimeout(func,time)
+    }
+   
+  }
 }
 
-const throttle = () => {
+export const withThrottle = (func:Function,time:number) => {
+  let validate:boolean = true;
+  return () =>{
+    if (!validate) return
+    func();
+    validate = !validate;
+    window.setTimeout(()=>{validate = !validate},time)
+  }
 
 }
 
