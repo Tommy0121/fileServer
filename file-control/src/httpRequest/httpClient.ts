@@ -1,10 +1,3 @@
-import axios, { AxiosRequestConfig } from "axios";
-
-type MyRequestConfig = {
-  debounce?: boolean;
-  throttle?: boolean
-}
-
 
 // debounce 
 export const withDebounce = (func:Function,time:number) =>{
@@ -28,9 +21,4 @@ export const withThrottle = (func:Function,time:number) => {
     window.setTimeout(()=>{validate = !validate},time)
   }
 
-}
-
-export default ( axiosConfig:AxiosRequestConfig, myConfig?:MyRequestConfig) => {
-
-  return axios.request(axiosConfig);
 }

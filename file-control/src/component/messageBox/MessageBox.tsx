@@ -1,6 +1,6 @@
 import React from "react";
 import avatar from "../../asset/akari.jpg";
-import "./messageBox.scss";
+import boxStyle from "./messageBox.module.scss";
 
 export type MessageBoxProps = {
   firstPart: boolean;
@@ -8,14 +8,16 @@ export type MessageBoxProps = {
 };
 
 const MessageBox = (props: MessageBoxProps) => {
+
+
   const messageType = props.firstPart ? "first" : "second";
 
   return (
-    <div className={`message-container ${messageType}`}>
+    <div className={ `${boxStyle['message-container']} ${boxStyle[messageType]}`}>
       <img src={avatar} width="35px" height="35px" />
-      <div className={`arrow ${messageType}`}></div>
-      <div className={`message-content ${messageType}`}>
-        <span className="message">{props.message}</span>
+      <div className={`${boxStyle['arrow']} ${boxStyle[messageType]}`}></div>
+      <div className={`${boxStyle['message-content']} ${boxStyle[messageType]}`}>
+        <span className="message" dangerouslySetInnerHTML={{__html:props.message}}></span>
       </div>
     </div>
   );

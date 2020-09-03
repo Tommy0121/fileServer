@@ -3,7 +3,7 @@ import { Layout } from "antd";
 import { Switch, Route } from "react-router-dom";
 import FileUploadPage from "./fileUpload/FileUpload";
 import ImageList from "./imageList/ImageList";
-import ChatRoom from './chatRoom/chatRoom';
+import ChatRoom from './chatRoom/ChatRoom';
 
 const Container = () => {
   const { Content } = Layout;
