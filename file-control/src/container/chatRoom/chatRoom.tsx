@@ -1,48 +1,46 @@
 import React, { useState, useEffect } from "react";
-import Loading, { LoadingThreeDot } from "../../component/loading/loading";
-import MessageBox, {
-  MessageBoxProps,
-} from "../../component/messageBox/MessageBox";
+import MessageBox, { MessageBoxProps } from "../../component/messageBox/MessageBox";
 import { socket } from "../../constanst";
 import { Button } from "antd";
 import {withDebounce, withThrottle} from '../../httpRequest/httpClient'
+import {chatMessageListMockData} from '../../mock/MockData'
 
 const ChatRoom = () => {
-  const [connection, setConnection] = useState<SocketIOClient.Socket>();
-  let messageBoxProps: MessageBoxProps = {
-    firstPart: true,
-    message: "adfadf",
-  };
-  const result = {
-    ...messageBoxProps,
-    firstPart: false,
-  };
+
+  const [messageList, setMessageList] = useState<MessageBoxProps[]>([]);
+  
 
   useEffect(() => {
     if (!socket.connected) {
       socket.open();
     }
-    setConnection(socket);
-    socket.on('',()=>{
-      
+    socket.on('chat message',(msg)=>{
+      console.log(msg)
+      setMessageList(pre=>{
+        return [...pre,{firstPart:false,message:msg}]
+      })
     })
+    // setMessageList(chatMessageListMockData);
     return () => {
-      connection?.disconnect();
+      socket.disconnect();
     };
-  }, [connection]);
+  }, []);
 
   const handleClick = ()=>{
-    console.log('click');
+    console.log('handle click')
+    socket.emit("chat message","here is mock message");
   }
 
   return (
     <div
       className="chatroom-container"
     >
-      <Loading />
-      <LoadingThreeDot />
-      <MessageBox {...messageBoxProps} />
-      <MessageBox {...result} />
+      {
+        messageList.map((item,index) => {
+          const result:MessageBoxProps = {...item,message:item.message+index}
+          return (<MessageBox key={index.toString()} {...result}/>)
+        })
+      }
       <Button onClick={withDebounce(handleClick,500)}>withDebounce</Button>
       <Button onClick={withThrottle(handleClick,500)}>withThrottle</Button>
     </div>

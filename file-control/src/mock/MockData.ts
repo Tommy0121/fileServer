@@ -1,4 +1,5 @@
 import { FileListResponseModel } from "file-server-models";
+import { MessageBoxProps } from "../component/messageBox/MessageBox";
 
 export const fileDirsMockData = [
   "2020-10-10",
@@ -18,3 +19,26 @@ export const fileListMockData: FileListResponseModel = {
     },
   ],
 };
+
+export const chatMessageListMockData: MessageBoxProps[] = [
+  {
+    firstPart: true,
+    message: "message",
+  },
+  {
+    firstPart: true,
+    message: "message",
+  },
+  {
+    firstPart: true,
+    message: "message",
+  },
+  {
+    firstPart: true,
+    message: "message",
+  },
+  {
+    firstPart: false,
+    message: "message",
+  },
+];

@@ -5,17 +5,16 @@ type MyRequestConfig = {
   throttle?: boolean
 }
 
+
+// debounce 
 export const withDebounce = (func:Function,time:number) =>{
  
   let id:number|undefined=undefined
   return ()=>{
   
-    if(!id){
-      id=window.setTimeout(func,time);
-    }else{
       window.clearTimeout(id);
       id=window.setTimeout(func,time)
-    }
+    
    
   }
 }

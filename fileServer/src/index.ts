@@ -34,17 +34,24 @@ app.all("*", function (req, res, next) {
 
 app.use("/api", router);
 
-socket.on("connection", (socket) => {
-  const socketId = socket.id;
-  socket.on("disconnect", (reason) => {
+socket.on("connection", (soc) => {
+  const socketId = soc.id;
+  console.log("connection id:"+socketId);
+  soc.on("disconnect", (reason) => {
     console.log("reason");
     if (reason === "io client disconnect") {
       // the disconnection was initiated by the server, you need to reconnect manually
       console.log("disconnect");
     } else {
-      console.log("object");
+      console.log("client disconnect");
     }
   });
+
+  soc.on('chat message',(msg) => {
+    console.log(msg);
+    soc.broadcast.emit('chat message',msg)
+
+  })
 });
 
 server.listen(port, () => {
