@@ -17,7 +17,7 @@ const MessageBox = (props: MessageBoxProps) => {
       <img src={avatar} width="35px" height="35px" />
       <div className={`${boxStyle['arrow']} ${boxStyle[messageType]}`}></div>
       <div className={`${boxStyle['message-content']} ${boxStyle[messageType]}`}>
-        <span className="message" dangerouslySetInnerHTML={{__html:props.message}}></span>
+        <span className={`${boxStyle['message']}`} dangerouslySetInnerHTML={{__html:props.message}}></span>
       </div>
     </div>
   );

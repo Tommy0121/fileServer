@@ -18,6 +18,11 @@
     yarn config get registry
     推荐使用.yarnrc文件来设定yarn的config，具体yarn config选项参见官网 [yarn config](https://yarn.bootcss.com/docs/cli/config/)
 
+# git 设置文件大小写敏感 
+
+    git 默认文件名大小写不敏感，导致一些需要更改的文件并没有修改，需要关闭大小写不敏感
+    git config core.ignorecase false
+
 # TODO
 
 ## Front-End

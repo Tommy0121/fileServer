@@ -1,0 +1,14 @@
+.chatroom-container{
+    background-color: snow;
+    padding: 24px 12px;
+    min-height: calc(100vh - 112px);
+}
+.chat-container{
+  min-height: 60vh;
+}
+.no-border{
+  border: 0px;
+}
+textarea{
+  resize: none;
+}
